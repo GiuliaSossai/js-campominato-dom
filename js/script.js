@@ -12,15 +12,6 @@ function gioca(){
   let dimension;
   let cellPerRiga;
 
-  /**
-   * tutte le bombe sono sempre 16
-   * le bombe sono generate in modo random (ogni bomba si identifica col numero della cella)
-   * le bombe stanno in un array
-   */
-  const ALLBOMBS = 16;
-  let bombs = generateBombs();
-  console.log(bombs);
-
   if (difficoltàScelta === 1){
     dimension = 100;
     cellPerRiga = 10;
@@ -31,6 +22,16 @@ function gioca(){
     dimension = 49;
     cellPerRiga = 7;
   }
+
+  /**
+   * tutte le bombe sono sempre 16
+   * le bombe sono generate in modo random (ogni bomba si identifica col numero della cella)
+   * le bombe stanno in un array
+   */
+   const ALLBOMBS = 16;
+   let bombs = generateBombs();
+   console.log(bombs);
+
   console.log('dimensione', dimension);
   console.log('cell per riga', cellPerRiga);
 
