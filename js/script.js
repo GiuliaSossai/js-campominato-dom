@@ -31,7 +31,7 @@ function gioca(){
   const ALLBOMBS = 16;
   let bombs = generateBombs();
 
-  console.log(bombs);
+  console.log('array bombe', bombs);
   console.log('dimensione', dimension);
   console.log('cell per riga', cellPerRiga);
 
@@ -89,11 +89,16 @@ function gioca(){
 
     for (i = 0; i < bombs.length; i++){
       console.log(bombs[i]);
+
       if(bombs[i] == numeroCell){
         this.classList.add('bomb');
+        document.querySelector('main').append(`hai perso! riprova!`);
+        break;
+         
       } else {
         this.classList.add('clicked');
       }
+      
     }
 
     // if(bombs.includes(numeroCell)){
@@ -103,7 +108,6 @@ function gioca(){
     //   this.classList.add('clicked');
     //   console.log('cella neutrale', this);
     // }
-
     
   };
 
