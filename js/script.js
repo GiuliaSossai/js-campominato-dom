@@ -9,9 +9,10 @@ function gioca(){
   const level = document.querySelector('.form-select');
   const difficoltàScelta = parseInt(level.value);
   console.log(difficoltàScelta);
+  let giocoFinito = false;
   let dimension;
   let cellPerRiga;
-
+  
   if (difficoltàScelta === 1){
     dimension = 100;
     cellPerRiga = 10;
@@ -67,11 +68,11 @@ function gioca(){
 
       //appendo la cella alla griglia
       griglia.append(cell);
-    };
+    }
     
     //appendo la griglia al main
     document.querySelector('main').append(griglia);
-  };
+  }
 
   /*ogni volta che clicco su una cella, dovrò confrontare se il numero della cella è presente o meno nell'array delle 16 bombe (ovvero se la cella è una bomba):
    - se è presente, la cella sarà rossa e il gioco termina
@@ -80,36 +81,44 @@ function gioca(){
 
   //funzione del click sulla cella
   function handleClickCell(event){
-    console.log('testo della cella', event.target.innerText);
-    // bisogna verificare se il testo della cella fa parte o no dell'array bombs
-    let numeroCell = event.target.innerText;
-    console.log('numeroCell', numeroCell);
 
-    //console.log(bombs.indexOf("numeroCell"));
+    if (giocoFinito == false) {
 
-    for (i = 0; i < bombs.length; i++){
-      console.log(bombs[i]);
+      console.log('testo della cella', event.target.innerText);
+      // bisogna verificare se il testo della cella fa parte o no dell'array bombs
+      let numeroCell = event.target.innerText;
+      console.log('numeroCell', numeroCell);
 
-      if(bombs[i] == numeroCell){
-        this.classList.add('bomb');
-        document.querySelector('main').append(`hai perso! riprova!`);
-        break;
-         
-      } else {
-        this.classList.add('clicked');
-      }
+      //console.log(bombs.indexOf("numeroCell"));
+
+      for (i = 0; i < bombs.length; i++){
+        console.log(bombs[i]);
+
+        if(bombs[i] == numeroCell){
+          this.classList.add('bomb');
+          document.querySelector('main').append(`hai perso! riprova!`);
+          giocoFinito = true;
+          
+        } else {
+          this.classList.add('clicked');
+        }
       
-    }
+      }
 
-    // if(bombs.includes(numeroCell)){
-    //   this.classList.add('bomb');
-    //   console.log('cella bomba', this);
-    // } else {
-    //   this.classList.add('clicked');
-    //   console.log('cella neutrale', this);
-    // }
+      // if(bombs.includes(numeroCell)){
+      //   this.classList.add('bomb');
+      //   console.log('cella bomba', this);
+      // } else {
+      //   this.classList.add('clicked');
+      //   console.log('cella neutrale', this);
+      // }
+
+    } else {
+
+        console.log('il gioco è finito. inutile che continui a cliccare');
+    }
     
-  };
+  }
 
   //funzione per generare random le 16 bombe
   function generateBombs(){
@@ -128,9 +137,9 @@ function gioca(){
     
     //ottengo l'array di bombe
     return bombs;
-  };
+  }
 
-};
+}
 
 //funzione per numeri random
 function generateRandomInt(min, max){
