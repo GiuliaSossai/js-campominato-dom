@@ -1,10 +1,4 @@
-
-
 const play = document.querySelector('.btn');
-console.log(play);
-
-const level = document.querySelector('.form-select');
-
 
 play.addEventListener('click', function(){
   gioca();
@@ -12,6 +6,7 @@ play.addEventListener('click', function(){
 
 function gioca(){
   //creo la griglia in base alla difficoltà scelta
+  const level = document.querySelector('.form-select');
   const difficoltàScelta = parseInt(level.value);
   console.log(difficoltàScelta);
   let dimension;
@@ -23,7 +18,8 @@ function gioca(){
    * le bombe stanno in un array
    */
   const ALLBOMBS = 16;
-  const bombs = generateBombs();
+  let bombs = generateBombs();
+  console.log(bombs);
 
   if (difficoltàScelta === 1){
     dimension = 100;
@@ -90,17 +86,18 @@ function gioca(){
   //funzione per generare random le 16 bombe
   function generateBombs(){
     //parto da un array vuoto
-    const bombs = [];
-
+    let bombs = [];
+    console.log(bombs);
+    console.log('ALLBOMBS', ALLBOMBS);
+    
     //ciclo while per creare le bombe: solo se numero estratto non è presente allora aggiungo la bomba nell'array
     while(bombs.length < ALLBOMBS){
       const bomb = generateRandomInt(1, dimension);
       if(!bombs.includes(bomb)){
         bombs.push(bomb);
-      }
-
+      };  
     };
-
+    
     //ottengo l'array di bombe
     return bombs;
   };
