@@ -51,3 +51,8 @@ main {
   background-color: rgb(94, 176, 243);
   color: white;
 }
+
+.square.bomb {
+  background-color: rgb(255, 0, 0);
+  color: white;
+}

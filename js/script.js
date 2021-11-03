@@ -12,10 +12,18 @@ play.addEventListener('click', function(){
 
 function gioca(){
   //creo la griglia in base alla difficoltà scelta
-  let difficoltàScelta = parseInt(level.value);
+  const difficoltàScelta = parseInt(level.value);
   console.log(difficoltàScelta);
   let dimension;
   let cellPerRiga;
+
+  /**
+   * tutte le bombe sono sempre 16
+   * le bombe sono generate in modo random (ogni bomba si identifica col numero della cella)
+   * le bombe stanno in un array
+   */
+  const ALLBOMBS = 16;
+  const bombs = generateBombs();
 
   if (difficoltàScelta === 1){
     dimension = 100;
@@ -62,17 +70,44 @@ function gioca(){
 
       //appendo la cella alla griglia
       griglia.append(cell);
-    }
+    };
     
     //appendo la griglia al main
     document.querySelector('main').append(griglia);
   };
 
+  /*ogni volta che clicco su una cella, dovrò confrontare se il numero della cella è presente o meno nell'array delle 16 bombe (ovvero se la cella è una bomba):
+   - se è presente, la cella sarà rossa e il gioco termina
+   - se non è presente nell'array, la cella sarà azzurra e potrò continuare il gioco
+   */
 
-  //funzione del click sulla cella
+   //funzione del click sulla cella
   function handleClickCell(event){
     console.log('testo della cella',event.target.innerText);
     this.classList.add('clicked');
-  }
+  };
+
+  //funzione per generare random le 16 bombe
+  function generateBombs(){
+    //parto da un array vuoto
+    const bombs = [];
+
+    //ciclo while per creare le bombe: solo se numero estratto non è presente allora aggiungo la bomba nell'array
+    while(bombs.length < ALLBOMBS){
+      const bomb = generateRandomInt(1, dimension);
+      if(!bombs.includes(bomb)){
+        bombs.push(bomb);
+      }
+
+    };
+
+    //ottengo l'array di bombe
+    return bombs;
+  };
 
 };
+
+//funzione per numeri random
+function generateRandomInt(min, max){
+  return Math.floor(Math.random() * (max - min) + min);
+}
