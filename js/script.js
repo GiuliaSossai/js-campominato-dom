@@ -27,11 +27,11 @@ function gioca(){
    * tutte le bombe sono sempre 16
    * le bombe sono generate in modo random (ogni bomba si identifica col numero della cella)
    * le bombe stanno in un array
-   */
-   const ALLBOMBS = 16;
-   let bombs = generateBombs();
-   console.log(bombs);
+  */
+  const ALLBOMBS = 16;
+  let bombs = generateBombs();
 
+  console.log(bombs);
   console.log('dimensione', dimension);
   console.log('cell per riga', cellPerRiga);
 
@@ -76,12 +76,35 @@ function gioca(){
   /*ogni volta che clicco su una cella, dovrò confrontare se il numero della cella è presente o meno nell'array delle 16 bombe (ovvero se la cella è una bomba):
    - se è presente, la cella sarà rossa e il gioco termina
    - se non è presente nell'array, la cella sarà azzurra e potrò continuare il gioco
-   */
+  */
 
-   //funzione del click sulla cella
+  //funzione del click sulla cella
   function handleClickCell(event){
-    console.log('testo della cella',event.target.innerText);
-    this.classList.add('clicked');
+    console.log('testo della cella', event.target.innerText);
+    // bisogna verificare se il testo della cella fa parte o no dell'array bombs
+    let numeroCell = event.target.innerText;
+    console.log('numeroCell', numeroCell);
+
+    //console.log(bombs.indexOf("numeroCell"));
+
+    for (i = 0; i < bombs.length; i++){
+      console.log(bombs[i]);
+      if(bombs[i] == numeroCell){
+        this.classList.add('bomb');
+      } else {
+        this.classList.add('clicked');
+      }
+    }
+
+    // if(bombs.includes(numeroCell)){
+    //   this.classList.add('bomb');
+    //   console.log('cella bomba', this);
+    // } else {
+    //   this.classList.add('clicked');
+    //   console.log('cella neutrale', this);
+    // }
+
+    
   };
 
   //funzione per generare random le 16 bombe
