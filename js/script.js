@@ -97,6 +97,7 @@ function gioca(){
         if(bombs[i] == numeroCell){
           this.classList.add('bomb');
           document.querySelector('main').append(`hai perso! riprova!`);
+          endGame();
           giocoFinito = true;
           
         } else {
@@ -132,14 +133,40 @@ function gioca(){
       const bomb = generateRandomInt(1, dimension);
       if(!bombs.includes(bomb)){
         bombs.push(bomb);
-      };  
-    };
+      } 
+    }
     
     //ottengo l'array di bombe
     return bombs;
   }
 
+
+  //funzione per far diventare rosse tutte le bombe alla fine del gioco
+  function endGame() {
+    console.log('siamo dentro alla funzione endGame');
+
+    //selezionare tutte le celle - ottengo un array
+    let allCell = document.querySelectorAll('.square');
+    console.log('tutte le celle', allCell);
+    
+    //devo verificare una cella alla volta se è o meno una bomba (per il confronto posso usare il testo contenuto nella cella)- solo a quelle che sono bombe dovrò aggiungere la classe bomb
+    //numero cella array allCell vs numero cella array bombs
+    for (let i = 0; i < allCell.length; i++){
+
+      if(allCell[i].innerText === bombs[i].event.target.innerText){
+        allCell[i].classList.add('bomb');
+      }
+    }
+  
+
+
+  }
+
+
+
 }
+
+
 
 //funzione per numeri random
 function generateRandomInt(min, max){
