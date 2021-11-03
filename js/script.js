@@ -151,12 +151,12 @@ function gioca(){
     
     //devo verificare una cella alla volta se è o meno una bomba (per il confronto posso usare il testo contenuto nella cella)- solo a quelle che sono bombe dovrò aggiungere la classe bomb
     //numero cella array allCell vs numero cella array bombs
-    for (let i = 0; i < allCell.length; i++){
+    // for (let i = 0; i < allCell.length; i++){
 
-      if(allCell[i].innerText === bombs[i].event.target.innerText){
-        allCell[i].classList.add('bomb');
-      }
-    }
+    //   if(allCell[i].innerText === bombs[i].event.target.innerText){
+    //     allCell[i].classList.add('bomb');
+    //   }
+    // }
   
 
 
