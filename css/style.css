@@ -1,0 +1,53 @@
+
+.gs-wrap {
+  height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+  background-color: rgb(134, 243, 181);
+}
+
+.logo-image img {
+  width: 60px;
+  margin-right: 20px;
+}
+
+.logo-name h1 {
+  font-weight: bold;
+} 
+
+.gs-grid {
+  width: 500px;
+  height: 500px;
+  background-color: white;
+}
+
+.square {
+  float: left;
+  border: 1px solid black;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square.easy {
+  width: calc(100% / 10);
+  height: calc(100% / 10);
+}
+
+.square.hard {
+  width: calc(100% / 9);
+  height: calc(100% / 9);
+}
+
+.square.crazy {
+  width: calc(100% / 7);
+  height: calc(100% / 7);
+}
+
+.square.clicked {
+  background-color: rgb(94, 176, 243);
+  color: white;
+}
