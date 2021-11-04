@@ -29,8 +29,13 @@ function gioca(){
    * le bombe sono generate in modo random (ogni bomba si identifica col numero della cella)
    * le bombe stanno in un array
   */
-  const ALLBOMBS = 16;
+  const ALLBOMBS = 2;
   let bombs = generateBombs();
+
+  //contatore tentativi validi e variabili tentativi
+  let attempts = 0;
+  const attemptsList = [];
+  const maxAttempts = dimension - ALLBOMBS;
 
   console.log('array bombe', bombs);
   console.log('dimensione', dimension);
@@ -75,48 +80,38 @@ function gioca(){
   }
 
   /*ogni volta che clicco su una cella, dovrò confrontare se il numero della cella è presente o meno nell'array delle 16 bombe (ovvero se la cella è una bomba):
-   - se è presente, la cella sarà rossa e il gioco termina
-   - se non è presente nell'array, la cella sarà azzurra e potrò continuare il gioco
+   - se è presente, la cella sarà rossa e il gioco termina: end game
+   - se non è presente nell'array, la cella sarà azzurra e potrò continuare il gioco: 
+      - devo incrementare il conto dei tentativi validi se tentativo non è già stato fatto (devo avere contatore che incrementa a ogni cella blu che attivo) 
+      - salvo tutti i tentativi fatti
+      - colore cella azzurra
+    - se completo le caselle valide: end game
   */
 
   //funzione del click sulla cella
   function handleClickCell(event){
+    console.log('testo della cella', event.target.innerText);
+    // bisogna verificare se il testo della cella fa parte o no dell'array bombs
+    let numeroCell = parseInt(event.target.innerText);
+    console.log('numeroCell', numeroCell);
 
-    if (giocoFinito == false) {
-
-      console.log('testo della cella', event.target.innerText);
-      // bisogna verificare se il testo della cella fa parte o no dell'array bombs
-      let numeroCell = event.target.innerText;
-      console.log('numeroCell', numeroCell);
-
-      //console.log(bombs.indexOf("numeroCell"));
-
-      for (i = 0; i < bombs.length; i++){
-        console.log(bombs[i]);
-
-        if(bombs[i] == numeroCell){
-          this.classList.add('bomb');
-          document.querySelector('main').append(`hai perso! riprova!`);
-          endGame();
-          giocoFinito = true;
-          
-        } else {
-          this.classList.add('clicked');
-        }
-      
-      }
-
-      // if(bombs.includes(numeroCell)){
-      //   this.classList.add('bomb');
-      //   console.log('cella bomba', this);
-      // } else {
-      //   this.classList.add('clicked');
-      //   console.log('cella neutrale', this);
-      // }
-
+    if(bombs.includes(numeroCell)){
+      console.log('il gioco è finito');
+      endGame();
     } else {
+      //check se tentativo già fatto
+      //se numero cella non è compreso nell'array dei tentativi già fatti
+      if (!attemptsList.includes(numeroCell)){
+        attempts ++;  //incremento il contatore dei tentativi validi
+        attemptsList.push(numeroCell); //aggiungo il tentativo dentro   l'elenco
+        this.classList.add('clicked'); //cella azzurra
 
-        console.log('il gioco è finito. inutile che continui a cliccare');
+        //check se ho completato tutte le celle
+        if (attempts === maxAttempts){
+           console.log('il gioco è finito');
+          endGame();
+        }
+      }
     }
     
   }
@@ -136,39 +131,50 @@ function gioca(){
       } 
     }
     
-    //ottengo l'array di bombe
+    //restituisco l'array di bombe
     return bombs;
   }
 
 
-  //funzione per far diventare rosse tutte le bombe alla fine del gioco
+  //funzione che termina il gioco (sia vittoria sia sconfitta - celle rosse)
   function endGame() {
     console.log('siamo dentro alla funzione endGame');
+    /**
+     * 1. far colorare tutte le bombe
+     * 2. fermare il gioco
+     * 3. generare un messaggio di output diverso se vinto o perso
+     */
 
-    //selezionare tutte le celle - ottengo un array
-    let allCell = document.querySelectorAll('.square');
+     // 1. prendo tutte le celle: se sono bombe le coloro di rosso
+    const allCell = document.getElementsByClassName('square');
     console.log('tutte le celle', allCell);
     
-    //devo verificare una cella alla volta se è o meno una bomba (per il confronto posso usare il testo contenuto nella cella)- solo a quelle che sono bombe dovrò aggiungere la classe bomb
-    //numero cella array allCell vs numero cella array bombs
-    // for (let i = 0; i < allCell.length; i++){
+    //ciclo su tutte le celle: se indice cella è incluso nell'array delle bombe, allora aggiungo la classe bomb
+    for (let i = 0; i < allCell.length; i++){
+       if(bombs.includes(i + 1)){
+            allCell[i].classList.add('bomb');
+          }
+        //2. faccio stoppare il gioco neutralizzando il click
+        allCell[i].style.pointerEvents = 'none';
+    }
+    
+    //3. genero messaggio finale
+    let msg = '';
+    if (attempts === maxAttempts) { //vittoria
+      msg = 'complimenti hai vinto il gioco!';
+    } else { //sconfitta
+      msg = `hai perso. hai fatto ${attempts} tentativi! riprova!`
+    }
 
-    //   if(allCell[i].innerText === bombs[i].event.target.innerText){
-    //     allCell[i].classList.add('bomb');
-    //   }
-    // }
-  
-
-
+    // stampo messaggio 
+    const output = document.createElement('div');
+    output.innerHTML = `<h5 class="p-3">${msg}</h5>`;
+    document.querySelector('main').append(output);
+    
   }
-
-
-
 }
-
-
 
 //funzione per numeri random
 function generateRandomInt(min, max){
-  return Math.floor(Math.random() * (max - min) + min);
+ return Math.floor(Math.random() * (max - min) + min);
 }
